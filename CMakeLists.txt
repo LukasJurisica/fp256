@@ -20,6 +20,8 @@ option(USE_DEV_RANDOM "use dev/random, default : use dev/urandom" OFF)
 option(USE_ASM "use assembly code" ON)
 option(USE_ASAN "use AddressSanitizer" OFF)
 option(USE_MSAN "use MemorySanitizer" OFF)
+option(FP256_ENABLE_TEST "build unit tests" ON)
+option(FP256_ENABLE_BENCHMARK "build benchmark" ON)
 
 if((NOT BUILD_STATIC) AND (NOT BUILD_SHARED))
     message(FATAL_ERROR "build static or shared or both")
@@ -85,8 +87,12 @@ endif()
 
 enable_testing()
 add_subdirectory(src)
-add_subdirectory(test)
-add_subdirectory(bench)
+if (FP256_ENABLE_TEST)
+    add_subdirectory(test)
+endif()
+if (FP256_ENABLE_BENCHMARK)
+    add_subdirectory(bench)
+endif()
 
 # summary
 set(BUILD_FLAGS CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE})
