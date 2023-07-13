@@ -23,7 +23,7 @@ option(FP256_USE_MSAN "use MemorySanitizer" OFF)
 option(FP256_ENABLE_TEST "build unit tests" ON)
 option(FP256_ENABLE_BENCHMARK "build benchmark" ON)
 
-if((NOT BUILD_STATIC) AND (NOT BUILD_SHARED))
+if((NOT FP256_BUILD_STATIC) AND (NOT FP256_BUILD_SHARED))
     message(FATAL_ERROR "build static or shared or both")
 endif()
 
