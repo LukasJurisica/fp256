@@ -15,9 +15,9 @@ if(CMAKE_C_COMPILER_ID MATCHES ".*Clang")
     endif()
 
     # sanitizer
-    if(USE_ASAN)
+    if(FP256_USE_ASAN)
         set(SANITIZER_FLAG -fsanitize=address)
-    elseif(USE_MSAN AND NOT OS_MACOSX)
+    elseif(FP256_USE_MSAN AND NOT OS_MACOSX)
         set(SANITIZER_FLAG -fsanitize=memory)
     endif()
     set(EXTRA_C_FLAGS ${EXTRA_C_FLAGS} ${SANITIZER_FLAG})
@@ -34,14 +34,14 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
     endif()
 
     # sanitizer
-    if(USE_ASAN)
+    if(FP256_USE_ASAN)
         set(SANITIZER_FLAG -fsanitize=address)
     endif()
     set(EXTRA_C_FLAGS ${EXTRA_C_FLAGS} ${SANITIZER_FLAG})
 
 elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
     set(EXTRA_C_FLAGS ${EXTRA_C_FLAGS} /Wall /wd4668 /wd4820 /wd4255)
-    if(USE_ASM)
+    if(FP256_USE_ASM)
         set(USE_MASM ON)
     endif()
     add_definitions(/D_CRT_SECURE_NO_WARNINGS)

@@ -72,34 +72,34 @@ set(FP256_C_SRC
 include_directories(${FP256_DIR}/)
 include_directories(${FP256_INCLUDE_DIR}/)
 
-if(BUILD_STATIC)
+if(FP256_BUILD_STATIC)
     # build static object
     add_library(fp256_c_static_object OBJECT ${FP256_C_SRC})
     add_library(fp256_asm_static_object OBJECT ${LL_ASM_SRC})
-    target_compile_definitions(fp256_c_static_object PRIVATE BUILD_STATIC)
+    target_compile_definitions(fp256_c_static_object PRIVATE FP256_BUILD_STATIC)
     target_compile_options(fp256_c_static_object PRIVATE ${EXTRA_C_FLAGS})
     #
     add_library(fp256_static STATIC 
                 $<TARGET_OBJECTS:fp256_c_static_object>
                 $<TARGET_OBJECTS:fp256_asm_static_object>)
-    target_compile_definitions(fp256_static PRIVATE BUILD_STATIC)
+    target_compile_definitions(fp256_static PRIVATE FP256_BUILD_STATIC)
     target_link_libraries(fp256_static ${SANITIZER_FLAG})
     # static library output directory
     set_target_properties(fp256_static PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY_STATIC}
         VERSION ${FP256_VERSION}
-        )
+    )
     # rename
     set_target_properties(fp256_static PROPERTIES OUTPUT_NAME "fp256")
     # install library
     INSTALL(TARGETS fp256_static ARCHIVE DESTINATION lib)
 endif()
 
-if(BUILD_SHARED)
+if(FP256_BUILD_SHARED)
     # build shared object
     add_library(fp256_c_shared_object OBJECT ${FP256_C_SRC})
     add_library(fp256_asm_shared_object OBJECT ${LL_ASM_SRC})
-    target_compile_definitions(fp256_c_shared_object PRIVATE BUILD_SHARED)
+    target_compile_definitions(fp256_c_shared_object PRIVATE FP256_BUILD_SHARED)
     target_compile_options(fp256_c_shared_object PRIVATE ${EXTRA_C_FLAGS})
     # PIC
     set_property(TARGET fp256_c_shared_object PROPERTY POSITION_INDEPENDENT_CODE ON)
@@ -108,7 +108,7 @@ if(BUILD_SHARED)
     add_library(fp256_shared SHARED 
                 $<TARGET_OBJECTS:fp256_c_shared_object> 
                 $<TARGET_OBJECTS:fp256_asm_shared_object>)
-    target_compile_definitions(fp256_shared PRIVATE BUILD_SHARED)
+    target_compile_definitions(fp256_shared PRIVATE FP256_BUILD_SHARED)
     target_link_libraries(fp256_shared ${SANITIZER_FLAG})
     # shared library output directory
     set_target_properties(fp256_shared PROPERTIES
